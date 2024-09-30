@@ -27,6 +27,7 @@ jobs:
 
 
   ci_windows:
+    name: CI Windows
     runs-on: windows-latest
     steps:
       - name: Clone repository
