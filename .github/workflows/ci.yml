@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  ci_android:
+    name: CI Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter test
+      - run: flutter build apk
+      - run: flutter build appbundle
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: apk_ci
+      #     path: build/linux/x64/release/debian
+
+
+  ci_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+      - run: flutter build windows
