@@ -19,6 +19,7 @@ jobs:
           echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
           echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/key.jks
+          echo storeFile=android/app/key.jks >> ${{env.PROPERTIES_PATH}}
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -31,7 +32,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk
       - run: flutter build appbundle
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: apk_ci
-      #     path: build/linux/x64/release/debian
+      - uses: actions/upload-artifact@v4
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release
