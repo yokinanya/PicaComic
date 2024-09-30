@@ -1,7 +1,5 @@
 name: CI
 
-env:
-  PROPERTIES_PATH: "./android/key.properties"
 
 on:
   workflow_dispatch: {}
@@ -13,13 +11,6 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Setup ENV
-        run: |
-          echo keyPassword=\${{ secrets.KEY_STORE }} > ${{env.PROPERTIES_PATH}}
-          echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
-          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/key.jks
-          echo storeFile=android/app/key.jks >> ${{env.PROPERTIES_PATH}}
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
